@@ -1,0 +1,9 @@
+<h1
+  style="background: black; text-align: center; margin-top: 20px; color: white;"
+>
+  <%= quote %>
+</h1>
+<!-- _method is what we used in method-override library -->
+<form action="/logout?_method=DELETE" method="POST">   
+  <button type="submit">Log Out</button>
+</form>
