@@ -6,15 +6,15 @@
   const cookieSession = require("cookie-session");
   const passport = require("passport");
   const keys = require("./config/keys");
-  const methodOverride = require('method-override')
+  const methodOverride = require("method-override");
 
   sequelize
     .authenticate()
     .then(() => {
-      console.dir("Database connected successfully.. :)");
+      log("Database connected successfully.. :)");
     })
     .catch((error) => {
-      console.error(error);
+      log(error);
       sequelize.close();
     });
 
@@ -22,7 +22,7 @@
   require("./config/passport");
 
   sequelize.sync({ alter: true }).catch((error) => {
-    console.log(error);
+    log(error);
     throw new Error(error);
   });
 
@@ -37,12 +37,13 @@
       keys: [keys.cookieKey],
     })
   );
-  
+
   app.use(passport.initialize());
   app.use(passport.session());
-  app.use(methodOverride("_method"));
+  app.use(methodOverride("_method")); // for logout route
 
   require("./routes/user-router")(app);
+  require("./routes/blog-router")(app);
 
   const PORT = process.env.PORT || 5000;
   app.listen(PORT, () => {

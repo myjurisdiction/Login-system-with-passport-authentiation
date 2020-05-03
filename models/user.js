@@ -3,17 +3,18 @@
 const { Model, DataTypes } = require("sequelize");
 const sequelize = require("../config/database");
 const bcrypt = require("bcryptjs");
+const Blog = require("./blogs");
 
 const hashPassword = async (user) => {
-    try {
-      if (user.changed("password")) {
-        const hash = await bcrypt.hash(user.password, 10);
-        user.password = hash;
-      }
-    } catch (error) {
-      throw new Error("Failed to hash the password", error);
+  try {
+    if (user.changed("password")) {
+      const hash = await bcrypt.hash(user.password, 10);
+      user.password = hash;
     }
-  };
+  } catch (error) {
+    throw new Error("Failed to hash the password", error);
+  }
+};
 
 class User extends Model {
   validatePassword(password) {
@@ -61,5 +62,8 @@ User.init(
     tableName: "user",
   }
 );
+
+User.hasMany(Blog, { foreignKey: "userId", sourceKey: "id" });
+Blog.belongsTo(User, { foreignKey: "userId", targetKey: "id" });
 
 module.exports = User;

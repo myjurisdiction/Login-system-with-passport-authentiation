@@ -5,5 +5,6 @@ module.exports = {
     dbHost  : 'localhost',
     dbPort : 5432,
     db_dialect : 'postgres',
-    cookieKey: 'lovelivelaugh'
+    cookieKey: 'lovelivelaugh',
+    redisUrl : 'redis://127.0.0.1:6379'
   };
